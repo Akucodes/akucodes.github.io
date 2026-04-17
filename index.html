@@ -113,6 +113,12 @@
   .cert-link { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 1rem; border: 1px solid var(--rim); background: var(--panel); text-decoration: none; color: var(--dim); font-size: 0.8rem; transition: all 0.25s; }
   .cert-link:hover { border-color: var(--accent); color: var(--accent2); }
   .cert-link i { color: var(--accent); font-size: 0.75rem; }
+  .cert-featured { border-color: rgba(155,140,255,0.4); color: var(--accent2); background: rgba(155,140,255,0.08); font-weight: 500; }
+  .cert-featured i { color: #fbbf24; }
+  .cert-featured:hover { border-color: var(--accent2); background: rgba(155,140,255,0.16); }
+
+  #chart-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.22; }
+  #hero { position: relative; overflow: hidden; }
 
   #contact { background: var(--deep); text-align: center; border-top: 1px solid var(--rim); }
   .contact-title { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; letter-spacing: -0.03em; margin-bottom: 1rem; }
@@ -158,6 +164,7 @@
 </nav>
 
 <section id="hero">
+  <canvas id="chart-canvas"></canvas>
   <div>
     <div class="hero-eyebrow">Data Analyst &nbsp;·&nbsp; Odisha, India</div>
     <h1>Akanksha<br><strong>Kumari Roy</strong></h1>
@@ -346,6 +353,7 @@
     </div>
   </div>
   <div class="cert-grid reveal">
+    <a href="https://www.udemy.com/certificate/UC-a1fff1a7-4622-415b-b43c-df8d20a814ca/" target="_blank" class="cert-link cert-featured"><i class="fas fa-star"></i> Udemy — Credit Risk Analysis &amp; AI-Powered Underwriting 2026</a>
     <a href="https://fsp-assessment-certificates.s3.ap-southeast-1.amazonaws.com/%27/s3/buckets/fsp-assessment-certificates%27/Akanksha%2BKumari%2BRoy_157630022.pdf.pdf" target="_blank" class="cert-link"><i class="fas fa-certificate"></i> NASSCOM — Data Analyst Program</a>
     <a href="https://drive.google.com/file/d/1599N6CmhyvsJzEJhvytTB0FZye_XxLj5/view?usp=sharing" target="_blank" class="cert-link"><i class="fas fa-certificate"></i> ExcelR — Data Analyst Programme</a>
     <a href="https://drive.google.com/file/d/1xNgmubopqor0U4yMkItJ4tA61m-FuCQd/view?usp=sharing" target="_blank" class="cert-link"><i class="fas fa-certificate"></i> CTTC Bhubaneswar — AI/ML</a>
@@ -401,6 +409,200 @@ const obs = new IntersectionObserver((entries)=>{
   entries.forEach((e,i)=>{ if(e.isIntersecting) setTimeout(()=>e.target.classList.add('on'), i*80); });
 },{threshold:0.07});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ANIMATED CHART BACKGROUND */
+(function(){
+  const c = document.getElementById('chart-canvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  let W, H, t = 0;
+
+  function resize(){
+    const hero = document.getElementById('hero');
+    W = c.width  = hero.offsetWidth;
+    H = c.height = hero.offsetHeight;
+  }
+
+  const ACCENT  = 'rgba(155,140,255,';
+  const ACCENT2 = 'rgba(196,181,253,';
+  const HOT     = 'rgba(255,122,92,';
+
+  /* ── bar chart data (animated growth) ── */
+  const bars = [0.45,0.62,0.38,0.80,0.55,0.70,0.90,0.48,0.75,0.60];
+
+  /* ── line chart data points ── */
+  const lineData = [30,55,40,70,50,80,65,90,72,95];
+
+  /* ── donut segments ── */
+  const donutSegs = [
+    {v:0.38, col: ACCENT},
+    {v:0.27, col: ACCENT2},
+    {v:0.20, col: HOT},
+    {v:0.15, col: 'rgba(100,200,180,'},
+  ];
+
+  function easeOut(x){ return 1 - Math.pow(1-x, 3); }
+
+  function drawBars(ox, oy, w, h, progress){
+    const bw = (w - (bars.length-1)*4) / bars.length;
+    bars.forEach((v,i)=>{
+      const bh = v * h * easeOut(Math.min(progress*1.5, 1));
+      const x  = ox + i*(bw+4);
+      const y  = oy + h - bh;
+      ctx.fillStyle = i%3===0 ? ACCENT+'0.7)' : i%3===1 ? ACCENT2+'0.55)' : HOT+'0.45)';
+      ctx.beginPath();
+      ctx.roundRect(x, y, bw, bh, [2,2,0,0]);
+      ctx.fill();
+    });
+    /* x-axis */
+    ctx.strokeStyle = ACCENT+'0.2)';
+    ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(ox, oy+h); ctx.lineTo(ox+w, oy+h); ctx.stroke();
+  }
+
+  function drawLine(ox, oy, w, h, progress){
+    const pts = lineData.map((v,i)=>({
+      x: ox + (i/(lineData.length-1))*w,
+      y: oy + h - (v/100)*h
+    }));
+    const drawn = Math.floor(pts.length * Math.min(progress*1.2,1));
+    if(drawn < 2) return;
+
+    /* area fill */
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, oy+h);
+    pts.slice(0, drawn).forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.lineTo(pts[drawn-1].x, oy+h);
+    ctx.closePath();
+    ctx.fillStyle = ACCENT+'0.07)';
+    ctx.fill();
+
+    /* line */
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    pts.slice(1, drawn).forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.strokeStyle = ACCENT+'0.55)';
+    ctx.lineWidth = 1.5;
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+    /* dots */
+    pts.slice(0, drawn).forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = ACCENT2+'0.8)';
+      ctx.fill();
+    });
+
+    /* grid lines */
+    ctx.strokeStyle = ACCENT+'0.08)';
+    ctx.lineWidth = 0.5;
+    for(let g=1;g<=4;g++){
+      const gy = oy + (g/4)*h;
+      ctx.beginPath(); ctx.moveTo(ox,gy); ctx.lineTo(ox+w,gy); ctx.stroke();
+    }
+  }
+
+  function drawDonut(cx, cy, R, r, progress){
+    let angle = -Math.PI/2;
+    const total = Math.min(progress * 1.4, 1) * Math.PI * 2;
+    let drawn = 0;
+    for(let i=0;i<donutSegs.length;i++){
+      const seg = donutSegs[i];
+      const sweep = seg.v * Math.PI * 2;
+      const actual = Math.min(sweep, total - drawn);
+      if(actual <= 0) break;
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, angle, angle+actual);
+      ctx.arc(cx, cy, r, angle+actual, angle, true);
+      ctx.closePath();
+      ctx.fillStyle = seg.col+'0.65)';
+      ctx.fill();
+      angle += actual;
+      drawn += actual;
+      if(drawn >= total) break;
+    }
+    /* center label */
+    if(progress > 0.8){
+      ctx.fillStyle = ACCENT2+'0.5)';
+      ctx.font = `500 11px 'Space Mono', monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('KPI', cx, cy);
+    }
+  }
+
+  function drawScatter(ox, oy, w, h, progress){
+    const pts = [
+      [0.1,0.8],[0.2,0.5],[0.3,0.65],[0.4,0.35],[0.5,0.55],
+      [0.6,0.25],[0.65,0.4],[0.75,0.2],[0.85,0.3],[0.95,0.1]
+    ];
+    const shown = Math.floor(pts.length * Math.min(progress*1.5,1));
+    /* trend line */
+    if(shown >= 2){
+      ctx.beginPath();
+      ctx.moveTo(ox, oy+h);
+      ctx.lineTo(ox+w, oy);
+      ctx.strokeStyle = HOT+'0.2)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4,4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    pts.slice(0,shown).forEach(([px,py],i)=>{
+      ctx.beginPath();
+      ctx.arc(ox+px*w, oy+py*h, 3, 0, Math.PI*2);
+      ctx.fillStyle = i%2===0 ? HOT+'0.6)' : ACCENT+'0.5)';
+      ctx.fill();
+    });
+  }
+
+  let startTime = null;
+  const INTRO = 2000; /* ms for intro animation */
+
+  function frame(ts){
+    if(!startTime) startTime = ts;
+    const elapsed = ts - startTime;
+    t = elapsed / 1000;
+
+    ctx.clearRect(0,0,W,H);
+
+    const progress = Math.min(elapsed / INTRO, 1);
+
+    /* ── layout ── */
+    const pad = 32;
+    const colW = (W - pad*3) / 2;
+    const rowH = (H - pad*3) / 2;
+
+    /* Bar chart — top left */
+    drawBars(pad, pad, colW*0.9, rowH*0.82, progress);
+
+    /* Line chart — top right */
+    drawLine(pad*2+colW, pad, colW*0.9, rowH*0.82, progress);
+
+    /* Donut — bottom left */
+    const dcx = pad + colW*0.45;
+    const dcy = pad*2 + rowH + rowH*0.45;
+    drawDonut(dcx, dcy, rowH*0.36, rowH*0.2, progress);
+
+    /* Scatter — bottom right */
+    drawScatter(pad*2+colW, pad*2+rowH, colW*0.9, rowH*0.82, progress);
+
+    /* pulse glow on dots over time */
+    const pulse = 0.5 + 0.5*Math.sin(t*1.6);
+    ctx.beginPath();
+    ctx.arc(dcx, dcy, rowH*0.38 + pulse*4, 0, Math.PI*2);
+    ctx.strokeStyle = ACCENT+`${0.04 + pulse*0.04})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  requestAnimationFrame(frame);
+  window.addEventListener('resize', resize);
+})();
 
 const secs = document.querySelectorAll('section[id]');
 const nls  = document.querySelectorAll('.nav-links a');

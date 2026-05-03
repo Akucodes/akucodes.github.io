@@ -30,7 +30,9 @@
   body { background: var(--void); color: var(--star); font-family: var(--sans); font-size: 15px; line-height: 1.7; overflow-x: hidden; }
 
   #stars-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.55; }
-  nav, section, .marquee-strip, footer { position: relative; z-index: 1; }
+  #linegraph-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 1; }
+  #insight-container { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+  nav, section, .marquee-strip, footer { position: relative; z-index: 3; }
 
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -71,21 +73,16 @@
   .section-title { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 300; letter-spacing: -0.02em; margin-bottom: 3rem; }
   .section-title em { font-style: normal; font-weight: 600; color: var(--accent2); }
 
+  /* ── Skills: category-row layout ── */
   #skills { background: var(--deep); }
-  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; border: 1px solid var(--rim); background: var(--rim); }
-  .skill-block { background: var(--deep); padding: 1.75rem; transition: background 0.3s; }
-  .skill-block:hover { background: var(--panel); }
-  .skill-block-title { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
-
-  /* Cloud block special styling */
-  .skill-block.cloud-block { background: linear-gradient(135deg, var(--deep) 75%, rgba(92,224,255,0.04)); border-left: 2px solid rgba(92,224,255,0.2); }
-  .skill-block.cloud-block .skill-block-title { color: var(--cloud); }
-  .skill-block.cloud-block:hover { background: linear-gradient(135deg, var(--panel) 75%, rgba(92,224,255,0.08)); }
-  .skill-block.cloud-block:hover .tag { border-color: rgba(92,224,255,0.28); color: var(--cloud); }
-
-  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .tag { font-family: var(--mono); font-size: 0.62rem; padding: 0.2rem 0.55rem; border: 1px solid var(--rim); color: var(--dim); letter-spacing: 0.05em; transition: all 0.2s; }
-  .skill-block:hover .tag { border-color: rgba(155,140,255,0.22); color: var(--accent2); }
+  .skills-table { display: grid; gap: 1px; background: var(--rim); border: 1px solid var(--rim); }
+  .skill-row { background: var(--deep); padding: 1.3rem 2rem; display: grid; grid-template-columns: 220px 1fr; gap: 1.5rem; align-items: start; transition: background 0.3s; }
+  .skill-row:hover { background: var(--panel); }
+  .skill-row-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); padding-top: 0.15rem; line-height: 1.5; }
+  .skill-row.cloud-row .skill-row-label { color: var(--cloud); }
+  .skill-row-body { font-size: 0.82rem; color: var(--dim); line-height: 1.75; }
+  .skill-row-body strong { color: var(--star); font-weight: 500; }
+  .skill-row.cloud-row .skill-row-body { color: rgba(92,224,255,0.6); }
 
   .exp-grid { display: grid; gap: 1px; background: var(--rim); border: 1px solid var(--rim); }
   .exp-item { background: var(--void); padding: 2rem 2.5rem; display: grid; grid-template-columns: 160px 1fr; gap: 2rem; transition: background 0.3s; }
@@ -130,9 +127,16 @@
   #chart-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.22; }
   #hero { position: relative; overflow: hidden; }
 
+  /* ── Contact: open-to badges ── */
   #contact { background: var(--deep); text-align: center; border-top: 1px solid var(--rim); }
   .contact-title { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; letter-spacing: -0.03em; margin-bottom: 1rem; }
-  .contact-sub { color: var(--dim); font-size: 0.9rem; margin-bottom: 2.5rem; }
+  .contact-sub { color: var(--dim); font-size: 0.9rem; margin-bottom: 1.75rem; }
+  .open-to { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.5rem; }
+  .open-badge { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 2px; }
+  .open-badge.green  { background: rgba(0,220,100,0.08); border: 1px solid rgba(0,220,100,0.25); color: rgba(80,255,150,0.85); }
+  .open-badge.purple { background: var(--glow); border: 1px solid rgba(155,140,255,0.3); color: var(--accent2); }
+  .open-badge.cyan   { background: var(--cloud-glow); border: 1px solid rgba(92,224,255,0.25); color: var(--cloud); }
+  .open-badge.orange { background: rgba(255,122,92,0.08); border: 1px solid rgba(255,122,92,0.25); color: rgba(255,150,120,0.85); }
   .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
   .c-link { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--dim); padding: 0.65rem 1.25rem; border: 1px solid var(--rim); transition: all 0.25s; }
   .c-link:hover { border-color: var(--accent); color: var(--accent2); }
@@ -140,10 +144,23 @@
   footer { background: var(--void); border-top: 1px solid var(--rim); padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center; }
   footer span { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--dim); }
 
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  /* ── Insight popup cards ── */
+  .insight-card {
+    position: absolute; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.06em; line-height: 1.5;
+    padding: 0.55rem 0.85rem; max-width: 200px; border-radius: 2px; pointer-events: none;
+    opacity: 0; transform: translateY(8px) scale(0.95); transition: opacity 0.5s ease, transform 0.5s ease;
+    backdrop-filter: blur(8px); white-space: normal;
+  }
+  .insight-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+  .insight-card.up   { background: rgba(0,220,100,0.09); border: 1px solid rgba(0,220,100,0.28); color: rgba(80,255,150,0.9); }
+  .insight-card.down { background: rgba(255,70,70,0.09);  border: 1px solid rgba(255,70,70,0.28);  color: rgba(255,110,110,0.9); }
+  .insight-card .insight-label { font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 0.25rem; }
+  .insight-card .insight-icon  { font-size: 0.7rem; margin-right: 0.3rem; }
+  .insight-card.up   .insight-dot { color: #00dc64; }
+  .insight-card.down .insight-dot { color: #ff4646; }
   .reveal.on { opacity: 1; transform: translateY(0); }
 
-  @keyframes rise { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes rise   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
   @keyframes orbit  { from{transform:rotate(0deg)}   to{transform:rotate(360deg)} }
   @keyframes orbit2 { from{transform:rotate(0deg)}   to{transform:rotate(-360deg)} }
@@ -154,6 +171,7 @@
     #hero { grid-template-columns: 1fr; padding: 1.5rem; padding-top: 90px; gap: 2rem; }
     section { padding: 4rem 1.5rem; }
     .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .skill-row { grid-template-columns: 1fr; gap: 0.4rem; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
   }
 </style>
@@ -161,6 +179,8 @@
 <body>
 
 <canvas id="stars-canvas"></canvas>
+<canvas id="linegraph-canvas"></canvas>
+<div id="insight-container"></div>
 
 <nav>
   <a href="#hero" class="nav-logo">AKR.io</a>
@@ -176,9 +196,9 @@
 <section id="hero">
   <canvas id="chart-canvas"></canvas>
   <div>
-    <div class="hero-eyebrow">Data Analyst &nbsp;·&nbsp; Odisha, India</div>
+    <div class="hero-eyebrow">Data &amp; Business Analyst &nbsp;·&nbsp; Odisha, India</div>
     <h1>Akanksha<br><strong>Kumari Roy</strong></h1>
-    <p class="hero-sub">Turning raw data into meaningful decisions — through Power BI, SQL, Python, and cloud infrastructure. From EC2-hosted SQL pipelines to interactive dashboards, built end-to-end for impact.</p>
+    <p class="hero-sub">Turning raw data into decisions that matter — through Power BI, SQL, Python, and cloud infrastructure. From EC2-hosted pipelines to executive dashboards, built end-to-end for impact. Open to data analyst, business analyst, and cloud-adjacent roles.</p>
     <div class="hero-links">
       <a href="mailto:akroy2601@gmail.com" class="pill primary">Get in touch</a>
       <a href="https://github.com/Akucodes" target="_blank" class="pill"><i class="fab fa-github"></i>&nbsp; GitHub</a>
@@ -188,32 +208,25 @@
 
   <div class="orbit-wrap">
     <svg class="orbit-svg" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Orbit rings -->
       <circle cx="150" cy="150" r="68"  stroke="rgba(155,140,255,0.13)" stroke-width="0.8"/>
       <circle cx="150" cy="150" r="104" stroke="rgba(155,140,255,0.08)" stroke-width="0.8" stroke-dasharray="3 6"/>
       <circle cx="150" cy="150" r="136" stroke="rgba(92,224,255,0.08)"  stroke-width="0.8" stroke-dasharray="2 8"/>
-      <!-- Center -->
       <circle cx="150" cy="150" r="34" fill="rgba(155,140,255,0.07)" stroke="rgba(155,140,255,0.28)" stroke-width="1"/>
       <circle cx="150" cy="150" r="20" fill="rgba(155,140,255,0.1)"  stroke="rgba(155,140,255,0.45)" stroke-width="0.8"/>
       <circle cx="150" cy="150" r="7"  fill="rgba(155,140,255,0.85)"/>
-      <!-- Orbiting planet 1 (purple) -->
       <g style="transform-origin:150px 150px;animation:orbit 7s linear infinite">
         <circle cx="218" cy="150" r="5" fill="#9b8cff" opacity="0.9"/>
       </g>
-      <!-- Orbiting moons -->
       <g style="transform-origin:150px 150px;animation:orbit2 11s linear infinite">
         <circle cx="150" cy="46"  r="4" fill="#c4b5fd" opacity="0.7"/>
         <circle cx="150" cy="254" r="3" fill="#ff7a5c" opacity="0.55"/>
       </g>
-      <!-- Cloud orbit dot — cyan, outermost ring -->
       <g style="transform-origin:150px 150px;animation:orbit 15s linear infinite">
         <circle cx="286" cy="150" r="5.5" fill="#5ce0ff" opacity="0.75"/>
       </g>
-      <!-- Second cloud dot counter-rotating -->
       <g style="transform-origin:150px 150px;animation:orbit2 20s linear infinite">
         <circle cx="150" cy="14" r="3" fill="#5ce0ff" opacity="0.35"/>
       </g>
-      <!-- Skill labels -->
       <text x="228" y="82"  font-family="'Space Mono',monospace" font-size="8.5" fill="rgba(155,140,255,0.5)" letter-spacing="0.1em">POWER BI</text>
       <text x="52"  y="192" font-family="'Space Mono',monospace" font-size="8.5" fill="rgba(155,140,255,0.4)" letter-spacing="0.1em">SQL</text>
       <text x="48"  y="122" font-family="'Space Mono',monospace" font-size="8.5" fill="rgba(196,181,253,0.4)" letter-spacing="0.1em">PYTHON</text>
@@ -225,63 +238,58 @@
 
 <div class="marquee-strip">
   <span class="marquee-inner">
-    Power BI &nbsp;·&nbsp; DAX Analytics &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; AWS EC2 &nbsp;·&nbsp; Cloud Infrastructure &nbsp;·&nbsp; Parallel Query Execution &nbsp;·&nbsp; Data Modeling &nbsp;·&nbsp; ETL/ELT &nbsp;·&nbsp; KPI Design &nbsp;·&nbsp; A/B Testing &nbsp;·&nbsp; Star Schema &nbsp;·&nbsp; Forecasting &nbsp;·&nbsp; NASSCOM Certified &nbsp;·&nbsp; Cohort Analysis &nbsp;·&nbsp;
-    Power BI &nbsp;·&nbsp; DAX Analytics &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; AWS EC2 &nbsp;·&nbsp; Cloud Infrastructure &nbsp;·&nbsp; Parallel Query Execution &nbsp;·&nbsp; Data Modeling &nbsp;·&nbsp; ETL/ELT &nbsp;·&nbsp; KPI Design &nbsp;·&nbsp; A/B Testing &nbsp;·&nbsp; Star Schema &nbsp;·&nbsp; Forecasting &nbsp;·&nbsp; NASSCOM Certified &nbsp;·&nbsp; Cohort Analysis &nbsp;·&nbsp;
+    Power BI &nbsp;·&nbsp; DAX Analytics &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; Data Engineering &nbsp;·&nbsp; ETL/ELT &nbsp;·&nbsp; KPI Design &nbsp;·&nbsp; Data Modeling &nbsp;·&nbsp; Star Schema &nbsp;·&nbsp; Variance Analysis &nbsp;·&nbsp; Trend Analysis &nbsp;·&nbsp; Forecasting &nbsp;·&nbsp; A/B Testing &nbsp;·&nbsp; Cohort Analysis &nbsp;·&nbsp; NASSCOM Certified &nbsp;·&nbsp; AWS &nbsp;·&nbsp; Business Analyst &nbsp;·&nbsp; Freelance &nbsp;·&nbsp;
+    Power BI &nbsp;·&nbsp; DAX Analytics &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; Data Engineering &nbsp;·&nbsp; ETL/ELT &nbsp;·&nbsp; KPI Design &nbsp;·&nbsp; Data Modeling &nbsp;·&nbsp; Star Schema &nbsp;·&nbsp; Variance Analysis &nbsp;·&nbsp; Trend Analysis &nbsp;·&nbsp; Forecasting &nbsp;·&nbsp; A/B Testing &nbsp;·&nbsp; Cohort Analysis &nbsp;·&nbsp; NASSCOM Certified &nbsp;·&nbsp; AWS &nbsp;·&nbsp; Business Analyst &nbsp;·&nbsp; Freelance &nbsp;·&nbsp;
   </span>
 </div>
 
+<!-- ══════════════ SKILLS ══════════════ -->
 <section id="skills">
   <div class="reveal">
     <p class="section-label">Toolkit</p>
     <h2 class="section-title">Technical <em>Skills</em></h2>
   </div>
-  <div class="skills-grid reveal">
-    <div class="skill-block">
-      <div class="skill-block-title">Business Intelligence</div>
-      <div class="tags">
-        <span class="tag">Power BI</span><span class="tag">Power Query</span><span class="tag">DAX</span>
-        <span class="tag">Data Modelling</span><span class="tag">Excel</span><span class="tag">Power Pivot</span>
-      </div>
+  <div class="skills-table reveal">
+
+    <div class="skill-row">
+      <div class="skill-row-label">Programming &amp;<br>Scripting</div>
+      <div class="skill-row-body">Python <span style="color:var(--dim);font-size:0.78rem">(pandas, numpy, matplotlib, seaborn)</span>, SQL</div>
     </div>
-    <div class="skill-block">
-      <div class="skill-block-title">Programming</div>
-      <div class="tags">
-        <span class="tag">SQL</span><span class="tag">Python</span><span class="tag">pandas</span>
-        <span class="tag">numpy</span><span class="tag">matplotlib</span><span class="tag">seaborn</span>
-      </div>
+
+    <div class="skill-row">
+      <div class="skill-row-label">Data &amp; BI Tools</div>
+      <div class="skill-row-body">Power BI <span style="color:var(--dim);font-size:0.78rem">(Power Query, DAX, Data Modeling)</span>, Excel <span style="color:var(--dim);font-size:0.78rem">(Power Pivot, data analysis)</span></div>
     </div>
-    <div class="skill-block cloud-block">
-      <div class="skill-block-title">Cloud &amp; Infrastructure</div>
-      <div class="tags">
-        <span class="tag">AWS EC2</span><span class="tag">T-series Instances</span>
-        <span class="tag">M-series Instances</span><span class="tag">Cloud SQL Hosting</span>
-        <span class="tag">Parallel Query Exec</span><span class="tag">Cloud Deployment</span>
-      </div>
+
+    <div class="skill-row">
+      <div class="skill-row-label">Data Engineering</div>
+      <div class="skill-row-body">ETL/ELT pipelines, data cleaning &amp; transformation, Star/Snowflake schema, SCD, calendar tables</div>
     </div>
-    <div class="skill-block">
-      <div class="skill-block-title">Modelling</div>
-      <div class="tags">
-        <span class="tag">Star Schema</span><span class="tag">Snowflake</span>
-        <span class="tag">SCD</span><span class="tag">Role-playing Dims</span>
-      </div>
+
+    <div class="skill-row">
+      <div class="skill-row-label">Concepts &amp;<br>Practices</div>
+      <div class="skill-row-body">KPI design, variance analysis, trend analysis, data validation, multi-source integration</div>
     </div>
-    <div class="skill-block">
-      <div class="skill-block-title">Analytics</div>
-      <div class="tags">
-        <span class="tag">ETL/ELT</span><span class="tag">KPI Design</span><span class="tag">A/B Testing</span>
-        <span class="tag">Forecasting</span><span class="tag">Cohort Analysis</span><span class="tag">Data Storytelling</span>
-      </div>
+
+    <div class="skill-row">
+      <div class="skill-row-label">Domain Exposure</div>
+      <div class="skill-row-body">Business metrics reporting, multi-currency data handling, structured insight delivery</div>
     </div>
-    <div class="skill-block">
-      <div class="skill-block-title">Tools</div>
-      <div class="tags">
-        <span class="tag">VS Code</span><span class="tag">Jupyter</span>
-        <span class="tag">Google Colab</span><span class="tag">Git / GitHub</span>
-      </div>
+
+    <div class="skill-row">
+      <div class="skill-row-label">Soft Skills</div>
+      <div class="skill-row-body">Analytical thinking, data storytelling, structured problem-solving, documentation, cross-functional communication</div>
     </div>
+
+    <div class="skill-row cloud-row">
+      <div class="skill-row-label">Tools, Platforms<br>&amp; Cloud</div>
+      <div class="skill-row-body">AWS, VS Code, Jupyter Notebook, Google Colab, Git/GitHub</div>
+    </div>
+
   </div>
 </section>
 
+<!-- ══════════════ EXPERIENCE ══════════════ -->
 <section id="experience">
   <div class="reveal">
     <p class="section-label">History</p>
@@ -327,6 +335,7 @@
   </div>
 </section>
 
+<!-- ══════════════ PROJECTS ══════════════ -->
 <section id="projects">
   <div class="reveal">
     <p class="section-label">Built</p>
@@ -354,6 +363,7 @@
   </div>
 </section>
 
+<!-- ══════════════ EDUCATION ══════════════ -->
 <section id="education">
   <div class="reveal">
     <p class="section-label">Academia</p>
@@ -386,11 +396,21 @@
   </div>
 </section>
 
+<!-- ══════════════ CONTACT ══════════════ -->
 <section id="contact">
   <div class="reveal">
     <p class="section-label">Reach out</p>
     <h2 class="contact-title">Let's work<br><span style="font-weight:600;color:var(--accent2)">together</span></h2>
-    <p class="contact-sub">Open to data analyst roles, freelance projects, and collaboration.</p>
+    <p class="contact-sub">Currently open to opportunities and collaboration.</p>
+
+    <div class="open-to">
+      <span class="open-badge green">&#x25C6; Data Analyst Roles</span>
+      <span class="open-badge purple">&#x25C6; Business Analyst Roles</span>
+      <span class="open-badge cyan">&#x25C6; Cloud Engineer Roles</span>
+      <span class="open-badge orange">&#x25C6; Freelance Projects</span>
+      <span class="open-badge purple" style="background:rgba(155,140,255,0.05);">&#x25C6; Collaboration</span>
+    </div>
+
     <div class="contact-links">
       <a href="mailto:akroy2601@gmail.com" class="c-link"><i class="fas fa-envelope"></i> akroy2601@gmail.com</a>
       <a href="tel:+917077694456" class="c-link"><i class="fas fa-phone"></i> +91-7077694456</a>
@@ -401,7 +421,7 @@
 </section>
 
 <footer>
-  <span>Akanksha Kumari Roy &nbsp;·&nbsp; Data Analyst</span>
+  <span>Akanksha Kumari Roy &nbsp;·&nbsp; Data &amp; Business Analyst</span>
   <span>akucodes.github.io</span>
 </footer>
 
@@ -441,29 +461,21 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   if(!c) return;
   const ctx = c.getContext('2d');
   let W, H, t = 0;
-
   function resize(){
     const hero = document.getElementById('hero');
     W = c.width  = hero.offsetWidth;
     H = c.height = hero.offsetHeight;
   }
-
   const ACCENT  = 'rgba(155,140,255,';
   const ACCENT2 = 'rgba(196,181,253,';
   const HOT     = 'rgba(255,122,92,';
   const CLOUD   = 'rgba(92,224,255,';
-
   const bars = [0.45,0.62,0.38,0.80,0.55,0.70,0.90,0.48,0.75,0.60];
   const lineData = [30,55,40,70,50,80,65,90,72,95];
   const donutSegs = [
-    {v:0.35, col: ACCENT},
-    {v:0.25, col: ACCENT2},
-    {v:0.20, col: HOT},
-    {v:0.20, col: CLOUD},
+    {v:0.35, col: ACCENT},{v:0.25, col: ACCENT2},{v:0.20, col: HOT},{v:0.20, col: CLOUD},
   ];
-
   function easeOut(x){ return 1 - Math.pow(1-x, 3); }
-
   function drawBars(ox, oy, w, h, progress){
     const bw = (w - (bars.length-1)*4) / bars.length;
     bars.forEach((v,i)=>{
@@ -475,50 +487,33 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       ctx.roundRect(x, y, bw, bh, [2,2,0,0]);
       ctx.fill();
     });
-    ctx.strokeStyle = ACCENT+'0.2)';
-    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = ACCENT+'0.2)'; ctx.lineWidth = 0.5;
     ctx.beginPath(); ctx.moveTo(ox, oy+h); ctx.lineTo(ox+w, oy+h); ctx.stroke();
   }
-
   function drawLine(ox, oy, w, h, progress){
-    const pts = lineData.map((v,i)=>({
-      x: ox + (i/(lineData.length-1))*w,
-      y: oy + h - (v/100)*h
-    }));
+    const pts = lineData.map((v,i)=>({ x: ox + (i/(lineData.length-1))*w, y: oy + h - (v/100)*h }));
     const drawn = Math.floor(pts.length * Math.min(progress*1.2,1));
     if(drawn < 2) return;
-
     ctx.beginPath();
     ctx.moveTo(pts[0].x, oy+h);
     pts.slice(0, drawn).forEach(p => ctx.lineTo(p.x, p.y));
     ctx.lineTo(pts[drawn-1].x, oy+h);
     ctx.closePath();
-    ctx.fillStyle = ACCENT+'0.07)';
-    ctx.fill();
-
+    ctx.fillStyle = ACCENT+'0.07)'; ctx.fill();
     ctx.beginPath();
     ctx.moveTo(pts[0].x, pts[0].y);
     pts.slice(1, drawn).forEach(p => ctx.lineTo(p.x, p.y));
-    ctx.strokeStyle = ACCENT+'0.55)';
-    ctx.lineWidth = 1.5;
-    ctx.lineJoin = 'round';
-    ctx.stroke();
-
+    ctx.strokeStyle = ACCENT+'0.55)'; ctx.lineWidth = 1.5; ctx.lineJoin = 'round'; ctx.stroke();
     pts.slice(0, drawn).forEach(p=>{
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 2.5, 0, Math.PI*2);
-      ctx.fillStyle = ACCENT2+'0.8)';
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = ACCENT2+'0.8)'; ctx.fill();
     });
-
-    ctx.strokeStyle = ACCENT+'0.08)';
-    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = ACCENT+'0.08)'; ctx.lineWidth = 0.5;
     for(let g=1;g<=4;g++){
       const gy = oy + (g/4)*h;
       ctx.beginPath(); ctx.moveTo(ox,gy); ctx.lineTo(ox+w,gy); ctx.stroke();
     }
   }
-
   function drawDonut(cx, cy, R, r, progress){
     let angle = -Math.PI/2;
     const total = Math.min(progress * 1.4, 1) * Math.PI * 2;
@@ -532,81 +527,197 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       ctx.arc(cx, cy, R, angle, angle+actual);
       ctx.arc(cx, cy, r, angle+actual, angle, true);
       ctx.closePath();
-      ctx.fillStyle = seg.col+'0.65)';
-      ctx.fill();
-      angle += actual;
-      drawn += actual;
+      ctx.fillStyle = seg.col+'0.65)'; ctx.fill();
+      angle += actual; drawn += actual;
       if(drawn >= total) break;
     }
     if(progress > 0.8){
       ctx.fillStyle = ACCENT2+'0.5)';
       ctx.font = `500 11px 'Space Mono', monospace`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('KPI', cx, cy);
     }
   }
-
   function drawScatter(ox, oy, w, h, progress){
-    const pts = [
-      [0.1,0.8],[0.2,0.5],[0.3,0.65],[0.4,0.35],[0.5,0.55],
-      [0.6,0.25],[0.65,0.4],[0.75,0.2],[0.85,0.3],[0.95,0.1]
-    ];
+    const pts = [[0.1,0.8],[0.2,0.5],[0.3,0.65],[0.4,0.35],[0.5,0.55],[0.6,0.25],[0.65,0.4],[0.75,0.2],[0.85,0.3],[0.95,0.1]];
     const shown = Math.floor(pts.length * Math.min(progress*1.5,1));
     if(shown >= 2){
-      ctx.beginPath();
-      ctx.moveTo(ox, oy+h);
-      ctx.lineTo(ox+w, oy);
-      ctx.strokeStyle = HOT+'0.2)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4,4]);
-      ctx.stroke();
-      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(ox, oy+h); ctx.lineTo(ox+w, oy);
+      ctx.strokeStyle = HOT+'0.2)'; ctx.lineWidth = 1; ctx.setLineDash([4,4]); ctx.stroke(); ctx.setLineDash([]);
     }
     pts.slice(0,shown).forEach(([px,py],i)=>{
-      ctx.beginPath();
-      ctx.arc(ox+px*w, oy+py*h, 3, 0, Math.PI*2);
-      ctx.fillStyle = i%2===0 ? HOT+'0.6)' : ACCENT+'0.5)';
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(ox+px*w, oy+py*h, 3, 0, Math.PI*2);
+      ctx.fillStyle = i%2===0 ? HOT+'0.6)' : ACCENT+'0.5)'; ctx.fill();
     });
   }
-
   let startTime = null;
   const INTRO = 2000;
-
   function frame(ts){
     if(!startTime) startTime = ts;
     const elapsed = ts - startTime;
     t = elapsed / 1000;
-
     ctx.clearRect(0,0,W,H);
     const progress = Math.min(elapsed / INTRO, 1);
-
     const pad = 32;
     const colW = (W - pad*3) / 2;
     const rowH = (H - pad*3) / 2;
-
     drawBars(pad, pad, colW*0.9, rowH*0.82, progress);
     drawLine(pad*2+colW, pad, colW*0.9, rowH*0.82, progress);
-
     const dcx = pad + colW*0.45;
     const dcy = pad*2 + rowH + rowH*0.45;
     drawDonut(dcx, dcy, rowH*0.36, rowH*0.2, progress);
     drawScatter(pad*2+colW, pad*2+rowH, colW*0.9, rowH*0.82, progress);
-
     const pulse = 0.5 + 0.5*Math.sin(t*1.6);
     ctx.beginPath();
     ctx.arc(dcx, dcy, rowH*0.38 + pulse*4, 0, Math.PI*2);
-    ctx.strokeStyle = ACCENT+`${0.04 + pulse*0.04})`;
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
+    ctx.strokeStyle = ACCENT+`${0.04 + pulse*0.04})`; ctx.lineWidth = 1; ctx.stroke();
     requestAnimationFrame(frame);
   }
-
   resize();
   requestAnimationFrame(frame);
   window.addEventListener('resize', resize);
+})();
+
+/* GLOBAL ANIMATED LINE GRAPH BACKGROUND */
+(function(){
+  const canvas = document.getElementById('linegraph-canvas');
+  const ctx    = canvas.getContext('2d');
+  const container = document.getElementById('insight-container');
+  let W, H;
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  const INSIGHTS = [
+    { type:'up',  label:'Uptrend Detected',   icon:'↑', text:'Price crosses 20-day moving average — classic bullish signal.' },
+    { type:'up',  label:'Support Bounce',      icon:'◆', text:'Volume spike at support level confirms accumulation phase.' },
+    { type:'up',  label:'Golden Cross',        icon:'✕', text:'50-day MA crosses above 200-day MA — long-term buy signal.' },
+    { type:'up',  label:'Breakout Confirmed',  icon:'▲', text:'Price breaks above resistance with 3× avg volume.' },
+    { type:'up',  label:'RSI Momentum',        icon:'⟶', text:'RSI above 55 signals sustained bullish momentum.' },
+    { type:'down',label:'Bearish Divergence',  icon:'↓', text:'Price makes new high but RSI declines — reversal warning.' },
+    { type:'down',label:'Resistance Hit',      icon:'◆', text:'Price rejected at key resistance — watch for distribution.' },
+    { type:'down',label:'Death Cross',         icon:'✕', text:'50-day MA drops below 200-day MA — bearish long-term signal.' },
+    { type:'down',label:'Volume Dry-up',       icon:'▼', text:'Declining volume on rally — weak conviction, possible reversal.' },
+    { type:'down',label:'Overbought Zone',     icon:'⟶', text:'RSI > 70 signals overextension — correction likely soon.' },
+    { type:'up',  label:'MACD Crossover',      icon:'↑', text:'MACD line crosses signal line upward — momentum shift begins.' },
+    { type:'down',label:'Head & Shoulders',    icon:'↓', text:'Classic reversal pattern — neckline break confirms downtrend.' },
+  ];
+  const PERIOD = 420;
+  const SEGMENTS = 180;
+  let history = [], t = 0, activeCards = [], nextInsightAt = 60, insightIdx = 0;
+  function noise(t){ return Math.sin(t*0.04)*0.15 + Math.sin(t*0.11)*0.07 + Math.sin(t*0.019)*0.2; }
+  function phaseValue(frame){ return (Math.sin((frame / PERIOD) * Math.PI * 2 - Math.PI/2) + 1) / 2; }
+  function spawnInsight(x, y, insight){
+    const card = document.createElement('div');
+    card.className = `insight-card ${insight.type}`;
+    const leftSide = x > W * 0.55;
+    card.style.left  = leftSide ? (x - 220) + 'px' : (x + 18) + 'px';
+    card.style.top   = Math.max(80, Math.min(H - 160, y - 40)) + 'px';
+    card.innerHTML = `<div class="insight-label"><span class="insight-dot">${insight.icon}</span> ${insight.label}</div><div>${insight.text}</div>`;
+    container.appendChild(card);
+    activeCards.push({ el: card, born: t, lifespan: 220 + Math.random()*80 });
+    requestAnimationFrame(()=> requestAnimationFrame(()=> card.classList.add('visible')));
+  }
+  function pruneCards(){
+    activeCards = activeCards.filter(c => {
+      const age = t - c.born;
+      if(age > c.lifespan - 40) c.el.classList.remove('visible');
+      if(age > c.lifespan){ c.el.remove(); return false; }
+      return true;
+    });
+  }
+  function drawGraph(){
+    if(history.length < 2) return;
+    const xStep = W / (SEGMENTS - 1);
+    const margin = H * 0.12;
+    const drawH  = H - margin * 2;
+    let i = 0;
+    while(i < history.length - 1){
+      const a = history[i], b = history[i+1];
+      const rising = b.phase >= a.phase;
+      const alpha  = 0.18 + (Math.abs(b.phase - a.phase) * 2);
+      const rx = W - (history.length - 1 - i)     * xStep;
+      const ry = margin + (1 - a.y) * drawH;
+      const sx = W - (history.length - 1 - (i+1)) * xStep;
+      const sy = margin + (1 - b.y) * drawH;
+      ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(sx, sy);
+      ctx.strokeStyle = rising ? `rgba(0,220,100,${Math.min(alpha,0.55)})` : `rgba(255,70,70,${Math.min(alpha,0.55)})`;
+      ctx.lineWidth = 1.5; ctx.lineCap = 'round'; ctx.stroke();
+      i++;
+    }
+    ctx.beginPath();
+    let started = false;
+    for(let j = 0; j < history.length - 1; j++){
+      const a = history[j], b = history[j+1];
+      if(b.phase < a.phase){ started = false; continue; }
+      const rx = W - (history.length - 1 - j) * xStep;
+      const ry = margin + (1 - a.y) * drawH;
+      if(!started){ ctx.moveTo(rx, H); ctx.lineTo(rx, ry); started = true; }
+      else ctx.lineTo(rx, ry);
+      const sx = W - (history.length - 1 - (j+1)) * xStep;
+      const sy = margin + (1 - b.y) * drawH;
+      ctx.lineTo(sx, sy);
+    }
+    ctx.lineTo(W, H); ctx.closePath();
+    ctx.fillStyle = 'rgba(0,220,100,0.025)'; ctx.fill();
+    ctx.beginPath(); started = false;
+    for(let j = 0; j < history.length - 1; j++){
+      const a = history[j], b = history[j+1];
+      if(b.phase >= a.phase){ started = false; continue; }
+      const rx = W - (history.length - 1 - j) * xStep;
+      const ry = margin + (1 - a.y) * drawH;
+      if(!started){ ctx.moveTo(rx, H); ctx.lineTo(rx, ry); started = true; }
+      else ctx.lineTo(rx, ry);
+      const sx = W - (history.length - 1 - (j+1)) * xStep;
+      const sy = margin + (1 - b.y) * drawH;
+      ctx.lineTo(sx, sy);
+    }
+    ctx.lineTo(W, H); ctx.closePath();
+    ctx.fillStyle = 'rgba(255,70,70,0.025)'; ctx.fill();
+    const tip = history[history.length - 1];
+    const tx  = W;
+    const ty  = margin + (1 - tip.y) * drawH;
+    const tipRising = history.length > 1 && tip.phase >= history[history.length - 2].phase;
+    const glowColor = tipRising ? '0,220,100' : '255,70,70';
+    const grad = ctx.createRadialGradient(tx, ty, 0, tx, ty, 14);
+    grad.addColorStop(0, `rgba(${glowColor},0.35)`);
+    grad.addColorStop(1, `rgba(${glowColor},0)`);
+    ctx.beginPath(); ctx.arc(tx, ty, 14, 0, Math.PI*2);
+    ctx.fillStyle = grad; ctx.fill();
+    ctx.beginPath(); ctx.arc(tx, ty, 3.5, 0, Math.PI*2);
+    ctx.fillStyle = tipRising ? 'rgba(0,220,100,0.9)' : 'rgba(255,70,70,0.9)'; ctx.fill();
+    ctx.strokeStyle = 'rgba(155,140,255,0.04)'; ctx.lineWidth = 0.5;
+    for(let g = 1; g <= 4; g++){
+      const gy = margin + (g/5) * drawH;
+      ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+    }
+  }
+  function frame(){
+    t++;
+    const phase = phaseValue(t);
+    const noisy = Math.max(0.05, Math.min(0.95, phase + noise(t) * 0.3));
+    history.push({ y: noisy, phase });
+    if(history.length > SEGMENTS) history.shift();
+    ctx.clearRect(0, 0, W, H);
+    drawGraph();
+    nextInsightAt--;
+    if(nextInsightAt <= 0 && history.length > 10){
+      const margin = H * 0.12;
+      const drawH  = H - margin * 2;
+      const xStep  = W / (SEGMENTS - 1);
+      const pickIdx = Math.floor(history.length * (0.3 + Math.random() * 0.5));
+      const pt = history[pickIdx];
+      const px  = W - (history.length - 1 - pickIdx) * xStep;
+      const py  = margin + (1 - pt.y) * drawH;
+      const candidates = INSIGHTS.filter(ins => pt.phase > 0.52 ? ins.type === 'up' : ins.type === 'down');
+      const insight = candidates[insightIdx % candidates.length];
+      insightIdx++;
+      spawnInsight(px, py, insight);
+      nextInsightAt = 280 + Math.floor(Math.random() * 180);
+    }
+    pruneCards();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 
 const secs = document.querySelectorAll('section[id]');

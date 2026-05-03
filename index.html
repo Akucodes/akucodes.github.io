@@ -20,6 +20,8 @@
     --accent2: #c4b5fd;
     --glow: rgba(155,140,255,0.12);
     --hot: #ff7a5c;
+    --cloud: #5ce0ff;
+    --cloud-glow: rgba(92,224,255,0.10);
     --mono: 'Space Mono', monospace;
     --sans: 'Space Grotesk', sans-serif;
   }
@@ -50,7 +52,7 @@
   h1 { font-family: var(--sans); font-weight: 300; font-size: clamp(3rem, 5vw, 5rem); line-height: 1.05; letter-spacing: -0.02em; opacity: 0; animation: rise 0.7s 0.35s forwards; }
   h1 strong { font-weight: 600; color: var(--accent2); display: block; }
 
-  .hero-sub { margin-top: 1.5rem; font-size: 0.9rem; color: var(--dim); max-width: 400px; line-height: 1.8; opacity: 0; animation: rise 0.7s 0.5s forwards; }
+  .hero-sub { margin-top: 1.5rem; font-size: 0.9rem; color: var(--dim); max-width: 420px; line-height: 1.8; opacity: 0; animation: rise 0.7s 0.5s forwards; }
   .hero-links { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; opacity: 0; animation: rise 0.7s 0.65s forwards; }
 
   .pill { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1.4rem; text-decoration: none; border: 1px solid var(--rim); color: var(--dim); background: var(--panel); transition: all 0.25s; }
@@ -62,7 +64,7 @@
   .orbit-svg { width: 300px; height: 300px; }
 
   .marquee-strip { border-top: 1px solid var(--rim); border-bottom: 1px solid var(--rim); padding: 0.7rem 0; overflow: hidden; white-space: nowrap; background: var(--deep); }
-  .marquee-inner { display: inline-block; animation: scroll 22s linear infinite; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+  .marquee-inner { display: inline-block; animation: scroll 28s linear infinite; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
 
   section { padding: 7rem 4rem; }
   .section-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
@@ -74,6 +76,13 @@
   .skill-block { background: var(--deep); padding: 1.75rem; transition: background 0.3s; }
   .skill-block:hover { background: var(--panel); }
   .skill-block-title { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+
+  /* Cloud block special styling */
+  .skill-block.cloud-block { background: linear-gradient(135deg, var(--deep) 75%, rgba(92,224,255,0.04)); border-left: 2px solid rgba(92,224,255,0.2); }
+  .skill-block.cloud-block .skill-block-title { color: var(--cloud); }
+  .skill-block.cloud-block:hover { background: linear-gradient(135deg, var(--panel) 75%, rgba(92,224,255,0.08)); }
+  .skill-block.cloud-block:hover .tag { border-color: rgba(92,224,255,0.28); color: var(--cloud); }
+
   .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .tag { font-family: var(--mono); font-size: 0.62rem; padding: 0.2rem 0.55rem; border: 1px solid var(--rim); color: var(--dim); letter-spacing: 0.05em; transition: all 0.2s; }
   .skill-block:hover .tag { border-color: rgba(155,140,255,0.22); color: var(--accent2); }
@@ -89,6 +98,7 @@
   .exp-points li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-size: 1.1rem; line-height: 1.4; }
   .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; }
   .chip { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; background: var(--glow); border: 1px solid var(--rim); color: var(--accent2); }
+  .chip.cloud { background: var(--cloud-glow); border-color: rgba(92,224,255,0.22); color: var(--cloud); }
 
   #projects { background: var(--deep); }
   .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--rim); border: 1px solid var(--rim); }
@@ -168,7 +178,7 @@
   <div>
     <div class="hero-eyebrow">Data Analyst &nbsp;·&nbsp; Odisha, India</div>
     <h1>Akanksha<br><strong>Kumari Roy</strong></h1>
-    <p class="hero-sub">Turning raw data into meaningful decisions — through Power BI, SQL, Python, and a deep love for well-designed dashboards.</p>
+    <p class="hero-sub">Turning raw data into meaningful decisions — through Power BI, SQL, Python, and cloud infrastructure. From EC2-hosted SQL pipelines to interactive dashboards, built end-to-end for impact.</p>
     <div class="hero-links">
       <a href="mailto:akroy2601@gmail.com" class="pill primary">Get in touch</a>
       <a href="https://github.com/Akucodes" target="_blank" class="pill"><i class="fab fa-github"></i>&nbsp; GitHub</a>
@@ -179,14 +189,14 @@
   <div class="orbit-wrap">
     <svg class="orbit-svg" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
       <!-- Orbit rings -->
-      <circle cx="150" cy="150" r="68" stroke="rgba(155,140,255,0.13)" stroke-width="0.8"/>
+      <circle cx="150" cy="150" r="68"  stroke="rgba(155,140,255,0.13)" stroke-width="0.8"/>
       <circle cx="150" cy="150" r="104" stroke="rgba(155,140,255,0.08)" stroke-width="0.8" stroke-dasharray="3 6"/>
-      <circle cx="150" cy="150" r="136" stroke="rgba(155,140,255,0.05)" stroke-width="0.8" stroke-dasharray="2 8"/>
+      <circle cx="150" cy="150" r="136" stroke="rgba(92,224,255,0.08)"  stroke-width="0.8" stroke-dasharray="2 8"/>
       <!-- Center -->
       <circle cx="150" cy="150" r="34" fill="rgba(155,140,255,0.07)" stroke="rgba(155,140,255,0.28)" stroke-width="1"/>
-      <circle cx="150" cy="150" r="20" fill="rgba(155,140,255,0.1)" stroke="rgba(155,140,255,0.45)" stroke-width="0.8"/>
+      <circle cx="150" cy="150" r="20" fill="rgba(155,140,255,0.1)"  stroke="rgba(155,140,255,0.45)" stroke-width="0.8"/>
       <circle cx="150" cy="150" r="7"  fill="rgba(155,140,255,0.85)"/>
-      <!-- Orbiting planet 1 -->
+      <!-- Orbiting planet 1 (purple) -->
       <g style="transform-origin:150px 150px;animation:orbit 7s linear infinite">
         <circle cx="218" cy="150" r="5" fill="#9b8cff" opacity="0.9"/>
       </g>
@@ -195,23 +205,28 @@
         <circle cx="150" cy="46"  r="4" fill="#c4b5fd" opacity="0.7"/>
         <circle cx="150" cy="254" r="3" fill="#ff7a5c" opacity="0.55"/>
       </g>
-      <!-- Far ring dot -->
-      <g style="transform-origin:150px 150px;animation:orbit 18s linear infinite">
-        <circle cx="286" cy="150" r="2.5" fill="#9b8cff" opacity="0.45"/>
+      <!-- Cloud orbit dot — cyan, outermost ring -->
+      <g style="transform-origin:150px 150px;animation:orbit 15s linear infinite">
+        <circle cx="286" cy="150" r="5.5" fill="#5ce0ff" opacity="0.75"/>
+      </g>
+      <!-- Second cloud dot counter-rotating -->
+      <g style="transform-origin:150px 150px;animation:orbit2 20s linear infinite">
+        <circle cx="150" cy="14" r="3" fill="#5ce0ff" opacity="0.35"/>
       </g>
       <!-- Skill labels -->
       <text x="228" y="82"  font-family="'Space Mono',monospace" font-size="8.5" fill="rgba(155,140,255,0.5)" letter-spacing="0.1em">POWER BI</text>
       <text x="52"  y="192" font-family="'Space Mono',monospace" font-size="8.5" fill="rgba(155,140,255,0.4)" letter-spacing="0.1em">SQL</text>
       <text x="48"  y="122" font-family="'Space Mono',monospace" font-size="8.5" fill="rgba(196,181,253,0.4)" letter-spacing="0.1em">PYTHON</text>
       <text x="198" y="232" font-family="'Space Mono',monospace" font-size="8.5" fill="rgba(255,122,92,0.5)"  letter-spacing="0.1em">DAX</text>
+      <text x="185" y="56"  font-family="'Space Mono',monospace" font-size="8.5" fill="rgba(92,224,255,0.6)"  letter-spacing="0.1em">AWS EC2</text>
     </svg>
   </div>
 </section>
 
 <div class="marquee-strip">
   <span class="marquee-inner">
-    Power BI &nbsp;·&nbsp; DAX Analytics &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; Data Modeling &nbsp;·&nbsp; ETL/ELT &nbsp;·&nbsp; KPI Design &nbsp;·&nbsp; A/B Testing &nbsp;·&nbsp; Star Schema &nbsp;·&nbsp; Forecasting &nbsp;·&nbsp; NASSCOM Certified &nbsp;·&nbsp; Cohort Analysis &nbsp;·&nbsp;
-    Power BI &nbsp;·&nbsp; DAX Analytics &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; Data Modeling &nbsp;·&nbsp; ETL/ELT &nbsp;·&nbsp; KPI Design &nbsp;·&nbsp; A/B Testing &nbsp;·&nbsp; Star Schema &nbsp;·&nbsp; Forecasting &nbsp;·&nbsp; NASSCOM Certified &nbsp;·&nbsp; Cohort Analysis &nbsp;·&nbsp;
+    Power BI &nbsp;·&nbsp; DAX Analytics &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; AWS EC2 &nbsp;·&nbsp; Cloud Infrastructure &nbsp;·&nbsp; Parallel Query Execution &nbsp;·&nbsp; Data Modeling &nbsp;·&nbsp; ETL/ELT &nbsp;·&nbsp; KPI Design &nbsp;·&nbsp; A/B Testing &nbsp;·&nbsp; Star Schema &nbsp;·&nbsp; Forecasting &nbsp;·&nbsp; NASSCOM Certified &nbsp;·&nbsp; Cohort Analysis &nbsp;·&nbsp;
+    Power BI &nbsp;·&nbsp; DAX Analytics &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; AWS EC2 &nbsp;·&nbsp; Cloud Infrastructure &nbsp;·&nbsp; Parallel Query Execution &nbsp;·&nbsp; Data Modeling &nbsp;·&nbsp; ETL/ELT &nbsp;·&nbsp; KPI Design &nbsp;·&nbsp; A/B Testing &nbsp;·&nbsp; Star Schema &nbsp;·&nbsp; Forecasting &nbsp;·&nbsp; NASSCOM Certified &nbsp;·&nbsp; Cohort Analysis &nbsp;·&nbsp;
   </span>
 </div>
 
@@ -233,6 +248,14 @@
       <div class="tags">
         <span class="tag">SQL</span><span class="tag">Python</span><span class="tag">pandas</span>
         <span class="tag">numpy</span><span class="tag">matplotlib</span><span class="tag">seaborn</span>
+      </div>
+    </div>
+    <div class="skill-block cloud-block">
+      <div class="skill-block-title">Cloud &amp; Infrastructure</div>
+      <div class="tags">
+        <span class="tag">AWS EC2</span><span class="tag">T-series Instances</span>
+        <span class="tag">M-series Instances</span><span class="tag">Cloud SQL Hosting</span>
+        <span class="tag">Parallel Query Exec</span><span class="tag">Cloud Deployment</span>
       </div>
     </div>
     <div class="skill-block">
@@ -288,12 +311,14 @@
         <div class="exp-co">Samsung Innovation Campus</div>
       </div>
       <div>
-        <div class="exp-role">AI/ML & Big Data Trainee</div>
+        <div class="exp-role">AI/ML &amp; Big Data Trainee</div>
         <ul class="exp-points">
+          <li>Provisioned an <strong style="color:var(--cloud)">AWS EC2 General Purpose instance (T &amp; M series)</strong> to host a cloud-based SQL database; executed parallel query workloads of up to <strong style="color:var(--cloud)">10 concurrent queries</strong> to simulate high-throughput data retrieval and validate pipeline efficiency.</li>
           <li>Enhanced SQL-based data pipelines and scrutinized structured datasets for insight generation.</li>
           <li>Worked on end-to-end data analysis tasks — collection, transformation, visualization, and reporting.</li>
         </ul>
         <div class="chips">
+          <span class="chip cloud">AWS EC2</span><span class="chip cloud">Cloud SQL</span><span class="chip cloud">Parallel Queries</span>
           <span class="chip">Python</span><span class="chip">SQL</span><span class="chip">EDA</span>
           <span class="chip">Feature Engineering</span><span class="chip">ML</span>
         </div>
@@ -340,7 +365,7 @@
       <div class="edu-right"><div class="edu-score">CGPA 7.9</div><div class="edu-yr">2022 — 2025</div></div>
     </div>
     <div class="edu-row">
-      <div><div class="edu-degree">Diploma — Electronics & Telecommunication</div><div class="edu-school">Jharsuguda Engineering School · SCTEVT, Odisha</div></div>
+      <div><div class="edu-degree">Diploma — Electronics &amp; Telecommunication</div><div class="edu-school">Jharsuguda Engineering School · SCTEVT, Odisha</div></div>
       <div class="edu-right"><div class="edu-score">80.2%</div><div class="edu-yr">2020 — 2022</div></div>
     </div>
     <div class="edu-row">
@@ -426,19 +451,15 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   const ACCENT  = 'rgba(155,140,255,';
   const ACCENT2 = 'rgba(196,181,253,';
   const HOT     = 'rgba(255,122,92,';
+  const CLOUD   = 'rgba(92,224,255,';
 
-  /* ── bar chart data (animated growth) ── */
   const bars = [0.45,0.62,0.38,0.80,0.55,0.70,0.90,0.48,0.75,0.60];
-
-  /* ── line chart data points ── */
   const lineData = [30,55,40,70,50,80,65,90,72,95];
-
-  /* ── donut segments ── */
   const donutSegs = [
-    {v:0.38, col: ACCENT},
-    {v:0.27, col: ACCENT2},
+    {v:0.35, col: ACCENT},
+    {v:0.25, col: ACCENT2},
     {v:0.20, col: HOT},
-    {v:0.15, col: 'rgba(100,200,180,'},
+    {v:0.20, col: CLOUD},
   ];
 
   function easeOut(x){ return 1 - Math.pow(1-x, 3); }
@@ -449,12 +470,11 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       const bh = v * h * easeOut(Math.min(progress*1.5, 1));
       const x  = ox + i*(bw+4);
       const y  = oy + h - bh;
-      ctx.fillStyle = i%3===0 ? ACCENT+'0.7)' : i%3===1 ? ACCENT2+'0.55)' : HOT+'0.45)';
+      ctx.fillStyle = i%4===0 ? ACCENT+'0.7)' : i%4===1 ? ACCENT2+'0.55)' : i%4===2 ? HOT+'0.45)' : CLOUD+'0.45)';
       ctx.beginPath();
       ctx.roundRect(x, y, bw, bh, [2,2,0,0]);
       ctx.fill();
     });
-    /* x-axis */
     ctx.strokeStyle = ACCENT+'0.2)';
     ctx.lineWidth = 0.5;
     ctx.beginPath(); ctx.moveTo(ox, oy+h); ctx.lineTo(ox+w, oy+h); ctx.stroke();
@@ -468,7 +488,6 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     const drawn = Math.floor(pts.length * Math.min(progress*1.2,1));
     if(drawn < 2) return;
 
-    /* area fill */
     ctx.beginPath();
     ctx.moveTo(pts[0].x, oy+h);
     pts.slice(0, drawn).forEach(p => ctx.lineTo(p.x, p.y));
@@ -477,7 +496,6 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     ctx.fillStyle = ACCENT+'0.07)';
     ctx.fill();
 
-    /* line */
     ctx.beginPath();
     ctx.moveTo(pts[0].x, pts[0].y);
     pts.slice(1, drawn).forEach(p => ctx.lineTo(p.x, p.y));
@@ -486,7 +504,6 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     ctx.lineJoin = 'round';
     ctx.stroke();
 
-    /* dots */
     pts.slice(0, drawn).forEach(p=>{
       ctx.beginPath();
       ctx.arc(p.x, p.y, 2.5, 0, Math.PI*2);
@@ -494,7 +511,6 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       ctx.fill();
     });
 
-    /* grid lines */
     ctx.strokeStyle = ACCENT+'0.08)';
     ctx.lineWidth = 0.5;
     for(let g=1;g<=4;g++){
@@ -522,7 +538,6 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       drawn += actual;
       if(drawn >= total) break;
     }
-    /* center label */
     if(progress > 0.8){
       ctx.fillStyle = ACCENT2+'0.5)';
       ctx.font = `500 11px 'Space Mono', monospace`;
@@ -538,7 +553,6 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       [0.6,0.25],[0.65,0.4],[0.75,0.2],[0.85,0.3],[0.95,0.1]
     ];
     const shown = Math.floor(pts.length * Math.min(progress*1.5,1));
-    /* trend line */
     if(shown >= 2){
       ctx.beginPath();
       ctx.moveTo(ox, oy+h);
@@ -558,7 +572,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   }
 
   let startTime = null;
-  const INTRO = 2000; /* ms for intro animation */
+  const INTRO = 2000;
 
   function frame(ts){
     if(!startTime) startTime = ts;
@@ -566,29 +580,20 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     t = elapsed / 1000;
 
     ctx.clearRect(0,0,W,H);
-
     const progress = Math.min(elapsed / INTRO, 1);
 
-    /* ── layout ── */
     const pad = 32;
     const colW = (W - pad*3) / 2;
     const rowH = (H - pad*3) / 2;
 
-    /* Bar chart — top left */
     drawBars(pad, pad, colW*0.9, rowH*0.82, progress);
-
-    /* Line chart — top right */
     drawLine(pad*2+colW, pad, colW*0.9, rowH*0.82, progress);
 
-    /* Donut — bottom left */
     const dcx = pad + colW*0.45;
     const dcy = pad*2 + rowH + rowH*0.45;
     drawDonut(dcx, dcy, rowH*0.36, rowH*0.2, progress);
-
-    /* Scatter — bottom right */
     drawScatter(pad*2+colW, pad*2+rowH, colW*0.9, rowH*0.82, progress);
 
-    /* pulse glow on dots over time */
     const pulse = 0.5 + 0.5*Math.sin(t*1.6);
     ctx.beginPath();
     ctx.arc(dcx, dcy, rowH*0.38 + pulse*4, 0, Math.PI*2);

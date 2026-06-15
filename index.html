@@ -65,6 +65,21 @@
   .orbit-wrap { display: flex; justify-content: center; align-items: center; opacity: 0; animation: rise 1s 0.5s forwards; }
   .orbit-svg { width: 300px; height: 300px; }
 
+  /* ── Photo avatar ── */
+  .hero-avatar-wrap {
+    display: flex; align-items: center; gap: 1.25rem;
+    margin-bottom: 1.75rem; opacity: 0; animation: rise 0.7s 0.1s forwards;
+  }
+  .hero-avatar {
+    width: 78px; height: 78px; border-radius: 50%;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 4px rgba(155,140,255,0.12), 0 0 22px rgba(155,140,255,0.2);
+    object-fit: cover; object-position: center top; flex-shrink: 0;
+  }
+  .hero-avatar-meta { display: flex; flex-direction: column; gap: 0.3rem; }
+  .hero-avatar-name { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .hero-avatar-role { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; color: var(--dim); }
+
   .marquee-strip { border-top: 1px solid var(--rim); border-bottom: 1px solid var(--rim); padding: 0.7rem 0; overflow: hidden; white-space: nowrap; background: var(--deep); }
   .marquee-inner { display: inline-block; animation: scroll 28s linear infinite; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
 
@@ -193,11 +208,23 @@
 <section id="hero">
   <canvas id="chart-canvas"></canvas>
   <div>
-    <div class="hero-eyebrow">Data &amp; Business Analyst &nbsp;·&nbsp; Odisha, India</div>
+    <div class="hero-avatar-wrap">
+      <img
+        src="https://raw.githubusercontent.com/Akucodes/akucodes.github.io/main/Akku_passport_size_photo.jpg"
+        alt="Akanksha Kumari Roy"
+        class="hero-avatar"
+      />
+      <div class="hero-avatar-meta">
+        <span class="hero-avatar-name">Akanksha Kumari Roy</span>
+        <span class="hero-avatar-role">Data &amp; Business Analyst · Odisha, India</span>
+      </div>
+    </div>
+    <div class="hero-eyebrow">Power BI &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Python &nbsp;·&nbsp; AWS</div>
     <h1>Akanksha<br><strong>Kumari Roy</strong></h1>
-    <p class="hero-sub">Turning raw data into decisions that matter — through Power BI, SQL, Python, and cloud infrastructure. From EC2-hosted pipelines to executive dashboards, built end-to-end for impact. Open to data analyst, business analyst, and cloud-adjacent roles.</p>
+    <p class="hero-sub">B.Tech CSE graduate who built Kickstarter funding dashboards, a 97%-accurate sign language classifier, and EC2-hosted SQL pipelines. Skilled in turning messy, multi-source data into Power BI dashboards and KPI frameworks that drive real decisions.</p>
     <div class="hero-links">
       <a href="mailto:akroy2601@gmail.com" class="pill primary">Get in touch</a>
+      <a href="https://raw.githubusercontent.com/Akucodes/akucodes.github.io/main/AKANKSHA_RESUME.pdf" target="_blank" class="pill primary" style="background:rgba(92,224,255,0.08);border-color:rgba(92,224,255,0.45);color:var(--cloud);"><i class="fas fa-file-arrow-down"></i>&nbsp; Download CV</a>
       <a href="https://github.com/Akucodes" target="_blank" class="pill"><i class="fab fa-github"></i>&nbsp; GitHub</a>
       <a href="https://www.linkedin.com/in/akanksha-kumari-roy2601/" target="_blank" class="pill"><i class="fab fa-linkedin"></i>&nbsp; LinkedIn</a>
     </div>
@@ -587,18 +614,18 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   resize();
   window.addEventListener('resize', resize);
   const INSIGHTS = [
-    { type:'up',  label:'Uptrend Detected',   icon:'↑', text:'Price crosses 20-day moving average — classic bullish signal.' },
-    { type:'up',  label:'Support Bounce',      icon:'◆', text:'Volume spike at support level confirms accumulation phase.' },
-    { type:'up',  label:'Golden Cross',        icon:'✕', text:'50-day MA crosses above 200-day MA — long-term buy signal.' },
-    { type:'up',  label:'Breakout Confirmed',  icon:'▲', text:'Price breaks above resistance with 3× avg volume.' },
-    { type:'up',  label:'RSI Momentum',        icon:'⟶', text:'RSI above 55 signals sustained bullish momentum.' },
-    { type:'down',label:'Bearish Divergence',  icon:'↓', text:'Price makes new high but RSI declines — reversal warning.' },
-    { type:'down',label:'Resistance Hit',      icon:'◆', text:'Price rejected at key resistance — watch for distribution.' },
-    { type:'down',label:'Death Cross',         icon:'✕', text:'50-day MA drops below 200-day MA — bearish long-term signal.' },
-    { type:'down',label:'Volume Dry-up',       icon:'▼', text:'Declining volume on rally — weak conviction, possible reversal.' },
-    { type:'down',label:'Overbought Zone',     icon:'⟶', text:'RSI > 70 signals overextension — correction likely soon.' },
-    { type:'up',  label:'MACD Crossover',      icon:'↑', text:'MACD line crosses signal line upward — momentum shift begins.' },
-    { type:'down',label:'Head & Shoulders',    icon:'↓', text:'Classic reversal pattern — neckline break confirms downtrend.' },
+    { type:'up',  label:'KPI Milestone',       icon:'↑', text:'Conversion rate up 18% MoM — campaign attribution confirmed via cohort analysis.' },
+    { type:'up',  label:'Pipeline Complete',   icon:'◆', text:'ETL job finished in 4.2s — 3× faster after query optimisation.' },
+    { type:'up',  label:'Dashboard Live',      icon:'▲', text:'Power BI report published — 12 stakeholders onboarded this week.' },
+    { type:'up',  label:'Model Accuracy',      icon:'⟶', text:'GridSearchCV tuning lifted classifier accuracy to 97% on test set.' },
+    { type:'up',  label:'Data Quality Pass',   icon:'✓', text:'Null check complete — 0 missing values across 3 joined datasets.' },
+    { type:'down',label:'Anomaly Detected',    icon:'↓', text:'Revenue dip in Q3 — variance analysis points to regional drop in APAC.' },
+    { type:'down',label:'Schema Mismatch',     icon:'◆', text:'Source field renamed upstream — pipeline paused, validation triggered.' },
+    { type:'down',label:'Outlier Flagged',     icon:'▼', text:'Backer count 4σ above mean — likely duplicate entry, flagged for review.' },
+    { type:'down',label:'Refresh Failed',      icon:'⟶', text:'Scheduled Power BI refresh timed out — EC2 instance restarted.' },
+    { type:'up',  label:'Forecast On Track',   icon:'↑', text:'Q4 revenue trending 6% above projection — model confidence: 91%.' },
+    { type:'up',  label:'Star Schema Built',   icon:'◆', text:'Fact + 4 dimension tables linked — calendar table with time intelligence added.' },
+    { type:'down',label:'Missing Dimension',   icon:'↓', text:'Currency conversion table not joined — DAX measure returning blank.' },
   ];
   const PERIOD = 420;
   const SEGMENTS = 180;
